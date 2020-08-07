@@ -23,7 +23,6 @@ class Fotos
     /**
      * @ORM\Column(type="string", length=255)
      * @Groups("fotos:read")
-     * @Assert\NotBlank
      */
     private $name;
 

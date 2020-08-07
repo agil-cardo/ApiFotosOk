@@ -38,13 +38,20 @@ class FotosController extends AbstractController
      */
     public function createFoto(Request $request, SerializerInterface $serializer, EntityManagerInterface $em)
     {
+
+        //le serializer fait le Normaliser et le json_encode al mismo tiempo
+
         $jsonRecu = $request->getContent();
+
+        // var_dump($jsonRecu);
 
         // dd($jsonRecu);
 
         try 
         {
             $foto = $serializer->deserialize($jsonRecu, Fotos::class, "json");
+
+            // var_dump($foto);
 
             $em->persist($foto);
             $em->flush();
@@ -57,7 +64,7 @@ class FotosController extends AbstractController
         {
             return $this->json([
                 'status' => 400,
-                'message' => $exception->getMessage(),
+                'message' => $exception,
                 // controlador de errores y excepciones en general por culpa de la red 
                 // y tambien fynally que siempre se ejecuta con el parametro exception
                 // se captura el error en la app

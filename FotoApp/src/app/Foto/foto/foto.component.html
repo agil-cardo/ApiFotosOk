@@ -4,10 +4,12 @@
 
       <form [formGroup]="fotoForm" (ngSubmit)="addFoto()" #form>
 
+        <!-- fotoForm il faut que soit lie avec le component, pero se puede llamar pepe -->
+
         <div class="form-group">
           <input type="text" formControlName="name" class="form-control" placeholder="Name">
         </div>
-
+        <!-- sur l'input je mets la valeur de mes champs =formControlName pour les champs 'name' -->
         <div class="form-group">
           <input type="text" formControlName="titulo" class="form-control" placeholder="Titulo">
         </div>
@@ -15,7 +17,7 @@
         <div class="form-group">
           <input type="textarea" formControlName="description" class="form-control" placeholder="Description">
         </div>
-
+        <br>
         <div class="form-group">
           <button class="btn btn-success btn-lg btn-block" type="submit">Add Photo</button>
         </div>
