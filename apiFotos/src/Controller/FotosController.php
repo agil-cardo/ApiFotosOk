@@ -44,7 +44,6 @@ class FotosController extends AbstractController
         $jsonRecu = $request->getContent();
 
         // var_dump($jsonRecu);
-
         // dd($jsonRecu);
 
         try 
@@ -57,7 +56,6 @@ class FotosController extends AbstractController
             $em->flush();
 
             return $this->json($foto, 201, [], ['groups' => 'fotos:read']);
-
             //pour recuperer nos articles au format Json todo lo que se quiere evaluar si falla
         } 
         catch (NotEncodableValueException $exception) 
@@ -68,7 +66,46 @@ class FotosController extends AbstractController
                 // controlador de errores y excepciones en general por culpa de la red 
                 // y tambien fynally que siempre se ejecuta con el parametro exception
                 // se captura el error en la app
+            ], 400);
+        }
+    }
 
+    /**
+     * @Route("/fotos/{id}", name="foto_delete", methods={"DELETE"})
+     */
+    public function deleteFoto(int $id, FotosRepository $repo, EntityManagerInterface $em) {
+
+        $foto = $repo->findOneBy(['id' => $id]);
+
+        $em->remove($foto);
+        $em->flush();
+    }
+
+    /**
+     * @Route("/fotos", name="foto_update", methods={"PUT"})
+     */
+    public function updateFoto(Request $request, SerializerInterface $serializer, EntityManagerInterface $em)
+    {
+        $jsonRecu = $request->getContent();
+
+        try 
+        {
+            $foto = $serializer->deserialize($jsonRecu, Fotos::class, "json");
+
+            $em->persist($foto);
+            $em->flush();
+
+            return $this->json($foto, 201, [], ['groups' => 'fotos:read']);
+            //pour recuperer nos articles au format Json todo lo que se quiere evaluar si falla
+        } 
+        catch (NotEncodableValueException $exception) 
+        {
+            return $this->json([
+                'status' => 400,
+                'message' => $exception,
+                // controlador de errores y excepciones en general por culpa de la red 
+                // y tambien fynally que siempre se ejecuta con el parametro exception
+                // se captura el error en la app
             ], 400);
         }
     }

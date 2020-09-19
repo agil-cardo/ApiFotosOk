@@ -1,0 +1,40 @@
+<div class="container custom-container-2">
+
+{{ fotos | json }}
+
+  <!-- Show it when there is no foto -->
+  <div class="no-data text-center" *ngIf="fotos.length == 0">
+    <p>There is no foto added yet!</p>
+    <button class="btn btn-outline-primary" routerLink="/foto-create">Add Foto</button>
+  </div>
+
+  <!-- fotos list table, it hides when there is no fotos -->
+  <div *ngIf="fotos.length > 0">
+    <h3 class="mb-3 text-center">Fotos List</h3>
+
+<div class="col-md-12">
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th scope="col">Foto Id</th>
+          <th scope="col">Name</th>
+          <th scope="col">Titulo</th>
+          <th scope="col">Description</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let foto of fotos">
+          <td>{{foto.id}}</td>
+          <td>{{foto.name}}</td>
+          <td>{{foto.titulo}}</td>
+          <td>{{foto.description}}</td>
+          <td>
+            <!-- horas y horas para encontrar esta parte que faltaba -->
+            
+            <button class="edit btn btn-success w-45 mr-1" routerLink="/fotos-edit/{{foto.id}}">Edit</button>
+            <button class="delete btn btn-danger w-45" (click)="supFoto(foto.id)">Delete</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>

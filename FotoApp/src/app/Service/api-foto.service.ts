@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
+import { Foto } from '../Model/foto.model';
 
 // import { Http, Headers } from '@angular/http';
 
@@ -16,10 +17,9 @@ export class ApiFotoService {
 
   result: any;
 
-  constructor( private http: HttpClient ) { }
+  constructor(private http: HttpClient) { }
 
-  public registerFoto(name: string, titulo: string, description: string)
-  {
+  public registerFoto(foto: Foto) {
 
     let baseUrl = environment.apiUrl + "/fotos";
 
@@ -33,15 +33,13 @@ export class ApiFotoService {
 
     // creacion de nuestro Objeto foto
 
-    let foto = {
-      "name": name,
-      "titulo": titulo,
-      "description": description,
-    }
+    // let foto = {
+    //   "name": name,
+    //   "titulo": titulo,
+    //   "description": description,
+    // }
 
-    return this.http.post<any>(baseUrl, foto, {headers: headers});
-      
-
+    return this.http.post<any>(baseUrl, foto, { headers: headers });
 
   }
 
@@ -53,9 +51,49 @@ export class ApiFotoService {
     headers.set('Content-Type', 'application/json;charset=utf-8');
     headers.set('Host', 'https://localhost:8000');
 
-    return this.http.get<any>(baseUrl, {headers: headers});
-    
+    return this.http.get<any>(baseUrl, { headers: headers });
 
+  }
+
+  public getFoto(id: number) {
+
+    let baseUrl = environment.apiUrl + "/fotos/" + id;
+
+    let headers = new HttpHeaders();
+    headers.set('Content-Type', 'application/json;charset=utf-8');
+    headers.set('Host', 'https://localhost:8000');
+
+    return this.http.get<any>(baseUrl, { headers: headers });
+
+  }
+
+
+  public deleteFoto(id: number) {
+
+    let baseUrl = environment.apiUrl + "/fotos/" + id;
+
+    let headers = new HttpHeaders();
+    headers.set('Content-Type', 'application/json;charset=utf-8');
+    headers.set('Host', 'https://localhost:8000');
+
+    return this.http.delete<any>(baseUrl, { headers: headers });
+
+    // return this.http.delete<any>(baseUrl +'/'+ id, {headers: headers});
+  }
+
+
+  // public updateFoto(id,) {
+  public updateFoto(foto: Foto) {
+
+    let baseUrl = environment.apiUrl + '/fotos' + foto;
+
+    let headers = new HttpHeaders();
+    headers.set('Content-Type', 'application/json;charset=utf-8');
+    headers.set('Host', 'https://localhost:8000');
+
+    return this.http.put<any>(baseUrl, { headers: headers });
+
+    // return this.http.delete<any>(baseUrl +'/'+ id, {headers: headers});
   }
 
 }
